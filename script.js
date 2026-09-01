@@ -54,10 +54,13 @@ cropBtn.addEventListener('click', () => {
 
     // Show caption
     captionTextDiv.innerHTML = `
-      ✨ 20 Years of Excellence ✨<br>
-      🎉 DIU Textile Mega Carnival 2025 🎉<br>
-      Frame link: <a href="https://taisur-rubayet.github.io/dp-frame/" target="_blank">taisur-rubayet.github.io/dp-frame</a>
-    `;
+  DIU Textile Alumni 4th Mega Reunion 2026<br>
+  Frame link: <a href="https://taisur-rubayet.github.io/4th-textile-alumni-reunion-Dp-frame/" target="_blank">https://taisur-rubayet.github.io/4th-textile-alumni-reunion-Dp-frame/<br><br>
+  #DIUTextileAlumniMegaReunion2026<br>
+  #DIUTextileFamily<br>
+  #MegaReunion2026<br><br>
+  </a>
+`;
     captionContainer.style.display = 'block';
 
     if(cropper){ cropper.destroy(); cropper=null; }
@@ -72,12 +75,12 @@ cropBtn.addEventListener('click', () => {
 
 // Copy caption
 copyCaptionBtn.addEventListener('click', () => {
-  const textToCopy = `✨ 20 Years of Excellence ✨
-🎉 DIU Textile Mega Carnival 2025 🎉
-Frame link: https://taisur-rubayet.github.io/dp-frame/`;
-  navigator.clipboard.writeText(textToCopy)
-    .then(()=> alert('Caption copied!'))
-    .catch(()=> alert('Failed to copy caption.'));
+  const textToCopy = `DIU Textile Alumni 4th Mega Reunion 2026
+Frame link: https://taisur-rubayet.github.io/4th-textile-alumni-reunion-Dp-frame/
+
+#DIUTextileAlumniMegaReunion2026
+#DIUTextileFamily
+#MegaReunion2026`;
 });
 
 // Download DP
