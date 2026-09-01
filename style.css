@@ -1,0 +1,117 @@
+/* Body & Layout */
+body {
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  padding: 40px 20px;
+  background: #3c0008; /* Dark reddish background */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fdf6f0; /* Light text for contrast */
+}
+
+h2 {
+  margin-bottom: 10px;
+  color: #fdf6f0;
+  text-shadow: 1px 1px 3px #000;
+}
+
+p {
+  margin-bottom: 25px;
+  font-weight: bold;
+  color: #f5d3d7;
+}
+
+/* Buttons */
+.btn {
+  background: #ff6f61;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 5px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #e65550;
+}
+
+/* Preview container */
+#previewContainer {
+  width: 400px;
+  height: 400px;
+  margin: 20px auto;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 3px dashed #fdf6f0;
+  display: none;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  background: #5c000e; /* slightly lighter than bg for contrast */
+}
+
+#preview {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+#downloadBtn {
+  display: none;
+  margin-top: 10px;
+}
+
+canvas { display: none; }
+
+/* Caption */
+#captionContainer {
+  display: none;
+  margin-top: 20px;
+  padding: 15px 20px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+#captionText {
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  color: #ffb3a7;
+  line-height: 1.6;
+}
+
+#captionText a {
+  color: #ff6f61;
+  text-decoration: underline;
+}
+/* ===== Made by Taisur Rubayet animated link ===== */
+#madeByPage {
+  position: fixed;
+  bottom: 10px;
+  right: 15px;
+  font-family: 'Brush Script MT', cursive;
+  font-size: 14px;
+  color: #efec33;
+  text-shadow: 1px 1px 2px #000;
+  z-index: 9999;
+  pointer-events: auto;
+  text-decoration: none;
+  animation: pulse 2s infinite;
+  transition: transform 0.3s, color 0.3s;
+}
+
+#madeByPage:hover {
+  color: #ffd700;
+  transform: scale(1.2) rotate(-2deg);
+  text-decoration: underline;
+}
+
+@keyframes pulse {
+  0% { text-shadow: 1px 1px 2px #000; color: #efec33; }
+  50% { text-shadow: 2px 2px 6px #ffd700; color: #fff200; }
+  100% { text-shadow: 1px 1px 2px #000; color: #efec33; }
+}
