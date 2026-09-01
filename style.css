@@ -3,7 +3,7 @@ body {
   font-family: 'Arial', sans-serif;
   text-align: center;
   padding: 40px 20px;
-  background: #3c0008; /* Dark reddish background */
+  background: linear-gradient(135deg, #0183A2 0%, #019AA5 100%); /* Dark reddish background */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
