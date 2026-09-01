@@ -13,7 +13,7 @@ let cropper;
 
 // Frame image
 const frame = new Image();
-frame.src = "DP FRMAE-01.png"; // same folder
+frame.src = "DP FRAME-01.png"; // same folder
 
 upload.addEventListener('change', e => {
   const file = e.target.files[0];
@@ -86,7 +86,7 @@ Frame link: https://taisur-rubayet.github.io/4th-textile-alumni-reunion-Dp-frame
 // Download DP
 downloadBtn.addEventListener('click', () => {
   const link = document.createElement('a');
-  link.download = 'Carnival_DP.png';
+  link.download = 'Reunion_DP.png';
   link.href = canvas.toDataURL("image/png");
   link.click();
 });
