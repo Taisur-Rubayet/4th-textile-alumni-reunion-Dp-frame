@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Textile Mega Carnival DP Maker</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
+</head>
+<body>
+
+<h2>🎉 Textile Mega Carnival 2025 - DP Maker 🎉</h2>
+<p>Upload → Crop → Preview → Download</p>
+
+<input type="file" id="upload" accept="image/*" class="btn">
+
+<div id="previewContainer">
+  <img id="preview">
+  
+</div>
+<br>
+<button id="cropBtn" class="btn" style="display:none;">Crop & Apply Frame</button>
+<br>
+<button id="downloadBtn" class="btn">Download DP</button>
+
+<!-- Caption container -->
+<div id="captionContainer">
+  <div id="captionText"></div>
+  <button id="copyCaptionBtn" class="btn">Copy Caption</button>
+</div>
+
+<canvas id="canvas" width="1080" height="1080"></canvas>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+<script src="script.js"></script>
+<a id="madeByPage" href="https://taisur-rubayet.github.io/Profile-card/" target="_blank">Made by Taisur Rubayet</a>
+</body>
+</html>
