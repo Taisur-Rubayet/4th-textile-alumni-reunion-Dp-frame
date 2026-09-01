@@ -13,165 +13,130 @@ let cropper;
 
 // Frame image
 const frame = new Image();
-frame.src = "DP FRAME-01.png";
+frame.src = "DP FRAME-01.png"; // same folder
 
-// Upload image
-upload.addEventListener('change', function(e) {
-    const file = e.target.files[0];
+upload.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if(!file) return;
 
-    if (!file) return;
+  const reader = new FileReader();
 
-    const reader = new FileReader();
+  reader.onload = () => {
+    preview.src = reader.result;
+    previewContainer.style.display = 'block';
 
-    reader.onload = function() {
-        preview.src = reader.result;
-        previewContainer.style.display = 'block';
+    if(cropper) cropper.destroy();
 
-        if (cropper) {
-            cropper.destroy();
-        }
+    cropper = new Cropper(preview, {
+      aspectRatio: 1,
+      viewMode: 1,
+      autoCropArea: 1,
+      responsive: true
+    });
 
-        cropper = new Cropper(preview, {
-            aspectRatio: 1,
-            viewMode: 1,
-            autoCropArea: 1,
-            responsive: true
-        });
+    cropBtn.style.display = 'inline-block';
+    downloadBtn.style.display = 'none';
+    captionContainer.style.display = 'none';
+  };
 
-        cropBtn.style.display = 'inline-block';
-        downloadBtn.style.display = 'none';
-        captionContainer.style.display = 'none';
-    };
-
-    reader.readAsDataURL(file);
+  reader.readAsDataURL(file);
 });
 
 
 // Crop & Apply Frame
-cropBtn.addEventListener('click', function() {
+cropBtn.addEventListener('click', () => {
+  if(!cropper) return;
 
-    if (!cropper) return;
+  const croppedCanvas = cropper.getCroppedCanvas({
+    width: 1080,
+    height: 1080
+  });
 
-    const croppedCanvas = cropper.getCroppedCanvas({
-        width: 1080,
-        height: 1080
-    });
+  function finalize() {
 
-    function finalize() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Draw uploaded photo
-        ctx.drawImage(
-            croppedCanvas,
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
+    // Main photo
+    ctx.drawImage(
+      croppedCanvas,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
 
+    // ==========================================
+    // FRAME - BOTTOM ONLY
+    // ==========================================
 
-        // Create temporary canvas for frame
-        const frameCanvas = document.createElement('canvas');
+    // Frame-এর শুধু নিচের অংশ নেওয়া হচ্ছে
+    // যাতে উপরের empty/black area photo ঢেকে না দেয়
+    const frameSourceY = 500;
+    const frameSourceHeight = 580;
 
-        frameCanvas.width = canvas.width;
-        frameCanvas.height = canvas.height;
-
-        const frameCtx = frameCanvas.getContext('2d');
-
-        // Draw frame
-        frameCtx.drawImage(
-            frame,
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
-
-
-        // Remove black background
-        const imageData = frameCtx.getImageData(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
-
-        const data = imageData.data;
-
-        for (let i = 0; i < data.length; i += 4) {
-
-            const r = data[i];
-            const g = data[i + 1];
-            const b = data[i + 2];
-
-            // Black → transparent
-            if (r < 30 && g < 30 && b < 30) {
-                data[i + 3] = 0;
-            }
-        }
-
-        frameCtx.putImageData(imageData, 0, 0);
+    ctx.drawImage(
+      frame,
+      0,
+      frameSourceY,
+      1080,
+      frameSourceHeight,
+      0,
+      500,
+      1080,
+      580
+    );
 
 
-        // Put frame over photo
-        ctx.drawImage(
-            frameCanvas,
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
+    // Update preview
+    preview.src = canvas.toDataURL("image/png");
+
+    // Hide crop button
+    cropBtn.style.display = 'none';
+
+    // Show download button
+    downloadBtn.style.display = 'inline-block';
 
 
-        // Update preview
-        preview.src = canvas.toDataURL("image/png");
+    // ==========================================
+    // CAPTION
+    // ==========================================
 
-        cropBtn.style.display = 'none';
-        downloadBtn.style.display = 'inline-block';
+    captionTextDiv.innerHTML = `
+      DIU Textile Alumni 4th Mega Reunion 2026<br><br>
+      #DIUTextileAlumniMegaReunion2026<br>
+      #DIUTextileFamily<br>
+      #MegaReunion2026<br><br>
+      Frame link:
+      <a href="https://taisur-rubayet.github.io/4th-textile-alumni-reunion-Dp-frame/"
+         target="_blank">
+         https://taisur-rubayet.github.io/4th-textile-alumni-reunion-Dp-frame/
+      </a>
+    `;
 
+    captionContainer.style.display = 'block';
 
-        // Caption
-        captionTextDiv.innerHTML = `
-            DIU Textile Alumni 4th Mega Reunion 2026<br><br>
-
-            #DIUTextileAlumniMegaReunion2026<br>
-            #DIUTextileFamily<br>
-            #MegaReunion2026<br><br>
-
-            Frame link:
-            <a href="https://taisur-rubayet.github.io/4th-textile-alumni-reunion-Dp-frame/"
-               target="_blank">
-               https://taisur-rubayet.github.io/4th-textile-alumni-reunion-Dp-frame/
-            </a>
-        `;
-
-        captionContainer.style.display = 'block';
-
-
-        // Destroy cropper
-        if (cropper) {
-            cropper.destroy();
-            cropper = null;
-        }
+    if(cropper){
+      cropper.destroy();
+      cropper = null;
     }
+  }
 
 
-    // Check frame loaded
-    if (frame.complete && frame.naturalWidth > 0) {
-        finalize();
-    } else {
-        frame.onload = finalize;
-    }
-
+  if(frame.complete){
+    finalize();
+  } else {
+    frame.onload = finalize;
+  }
 });
 
 
-// Copy Caption
-copyCaptionBtn.addEventListener('click', function() {
+// Copy caption
+copyCaptionBtn.addEventListener('click', () => {
 
-    const textToCopy = `DIU Textile Alumni 4th Mega Reunion 2026
+  const textToCopy = `DIU Textile Alumni 4th Mega Reunion 2026
 
 #DIUTextileAlumniMegaReunion2026
 #DIUTextileFamily
@@ -179,26 +144,20 @@ copyCaptionBtn.addEventListener('click', function() {
 
 Frame link: https://taisur-rubayet.github.io/4th-textile-alumni-reunion-Dp-frame/`;
 
-    navigator.clipboard.writeText(textToCopy)
-        .then(function() {
-            alert('Caption copied!');
-        })
-        .catch(function() {
-            alert('Failed to copy caption.');
-        });
-
+  navigator.clipboard.writeText(textToCopy)
+    .then(() => alert('Caption copied!'))
+    .catch(() => alert('Failed to copy caption.'));
 });
 
 
 // Download DP
-downloadBtn.addEventListener('click', function() {
+downloadBtn.addEventListener('click', () => {
 
-    const link = document.createElement('a');
+  const link = document.createElement('a');
 
-    link.download = 'DIU_Textile_Alumni_Reunion_2026_DP.png';
+  link.download = 'DIU_Textile_Alumni_Reunion_2026_DP.png';
 
-    link.href = canvas.toDataURL('image/png');
+  link.href = canvas.toDataURL("image/png");
 
-    link.click();
-
+  link.click();
 });
